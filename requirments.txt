@@ -7,3 +7,4 @@ matplotlib
 requests
 textblob
 python-dotenv
+gunicorn
