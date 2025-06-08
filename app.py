@@ -95,13 +95,11 @@ def plot_prices(df, symbol):
     return img
 
 def predict_price(df):
-    df['Days'] = np.arange(len(df)).reshape(-1, 1)
-    X = df['Days'].values.reshape(-1, 1)
-    y = df['Adj Close'].values
-    model = LinearRegression().fit(X, y)
-    future_day = np.array([[len(df)]])
-    pred = model.predict(future_day)
-    return float(pred[0])
+   
+    if len(df) < 7:
+        return df['Adj Close'].mean()  # fallback to overall average if not enough data
+    return df['Adj Close'].rolling(window=7).mean().iloc[-1]
+
 
 def get_sentiment(symbol):
     if symbol in sentiment_cache:
