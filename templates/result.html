@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analysis Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    {% if error %}
+        <h3 class="error">{{ error }}</h3>
+    {% else %}
+        <h2>📊 Analysis for {{ name }} ({{ symbol }})</h2>
+
+        <div class="price-box">
+            <span class="price-label">Current Price:</span>
+            <span class="price-value">${{ current_price }}</span>
+            <span class="price-change {% if diff > 0 %}green{% elif diff < 0 %}red{% endif %}">
+                ({{ "+" if diff > 0 else "" }}{{ diff }}, {{ "+" if pct > 0 else "" }}{{ pct }}%)
+            </span>
+        </div>
+
+        <ul class="metrics">
+            <li><strong>Average Daily Return:</strong> {{ avg_return | round(4) }}</li>
+            <li><strong>Volatility (Std Dev):</strong> {{ volatility | round(4) }}</li>
+            <li><strong>Sharpe Ratio:</strong> {{ sharpe | round(3) }}</li>
+            <li><strong>Predicted Next Price:</strong> ${{ prediction | round(2) }}</li>
+        </ul>
+
+        <div class="chart">
+            <img src="data:image/png;base64,{{ chart }}" alt="Stock Chart">
+        </div>
+
+        {% if sentiment %}
+            <div class="sentiment">
+                <h3>🗞️ News Sentiment</h3>
+                <p>{{ sentiment.summary }} (Score: {{ sentiment.score }})</p>
+            </div>
+        {% endif %}
+    {% endif %}
+    <a href="/" class="back-btn">⬅ Back</a>
+</div>
+</body>
+</html>
