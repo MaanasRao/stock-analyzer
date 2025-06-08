@@ -11,7 +11,7 @@ A Flask web app that analyzes historical stock performance and news sentiment. U
 
 ## 🔴 Live Demo
 ```
-[COMING SOON ]
+https://stock-analyzer-49dn.onrender.com
 ```
 
 ## 📁 Project Structure
