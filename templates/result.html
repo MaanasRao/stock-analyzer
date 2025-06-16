@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,19 +23,38 @@
             <li><strong>Average Daily Return:</strong> {{ avg_return | round(4) }}</li>
             <li><strong>Volatility (Std Dev):</strong> {{ volatility | round(4) }}</li>
             <li><strong>Sharpe Ratio:</strong> {{ sharpe | round(3) }}</li>
-            <li><strong>Predicted Next Price:</strong> ${{ prediction | round(2) }}</li>
         </ul>
 
-        <div class="chart">
+        {% if risk_level <= 2 %}
+            {% set border_color = 'green' %}
+        {% elif risk_level == 3 %}
+            {% set border_color = 'orange' %}
+        {% else %}
+            {% set border_color = 'red' %}
+        {% endif %}
+
+        <div class="risk-box" style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-left: 6px solid {{ border_color }};">
+            <h3>📈 Investment Suggestion</h3>
+            <p><strong>{{ risk_label }}</strong></p>
+        </div>
+
+        <div class="chart" style="margin-top: 30px;">
             <img src="data:image/png;base64,{{ chart }}" alt="Stock Chart">
         </div>
 
         {% if sentiment %}
-            <div class="sentiment">
+            <div class="sentiment" style="margin-top: 30px;">
                 <h3>🗞️ News Sentiment</h3>
                 <p>{{ sentiment.summary }} (Score: {{ sentiment.score }})</p>
+                <p style="font-size: 0.9em; color: #555;">
+                    <em>News sentiment analyzes recent headlines to estimate whether the market's tone toward this stock is positive, neutral, or negative.</em>
+                </p>
             </div>
         {% endif %}
+
+        <div class="caution-box" style="margin-top: 30px; background: #fff3cd; padding: 15px; border-left: 6px solid #ffc107;">
+            ⚠ <strong>Caution:</strong> This analysis is based on historical stock data and limited news sentiment. It is not financial advice. Please consult a certified financial advisor before making investment decisions.
+        </div>
     {% endif %}
     <a href="/" class="back-btn">⬅ Back</a>
 </div>
