@@ -94,11 +94,43 @@ def plot_prices(df, symbol):
     plt.close()
     return img
 
-def predict_price(df):
-   
-    if len(df) < 7:
-        return df['Adj Close'].mean()  # fallback to overall average if not enough data
-    return df['Adj Close'].rolling(window=7).mean().iloc[-1]
+def assess_risk(avg_return, volatility, sentiment_score):
+    score = 0
+
+    # 1. News sentiment score
+    if sentiment_score is None:
+        score += 2
+    elif sentiment_score > 0.2:
+        score += 0
+    elif sentiment_score < -0.2:
+        score += 2
+    else:
+        score += 1
+
+    # 2. Volatility level
+    if volatility > 0.03:
+        score += 2
+    elif volatility > 0.015:
+        score += 1
+
+    # 3. Average return
+    if avg_return < 0:
+        score += 2
+    elif avg_return < 0.0005:
+        score += 1
+
+    # Total score (0–6), map to 1–5 suggestion levels
+    if score <= 1:
+        return (1, "🟢 Strong Buy – Very Low Risk")
+    elif score == 2:
+        return (2, "🟢 Buy – Low Risk")
+    elif score == 3:
+        return (3, "🟡 Hold – Moderate Risk")
+    elif score == 4:
+        return (4, "🟠 Avoid – High Risk")
+    else:
+        return (5, "🔴 Strong Avoid – Very High Risk")
+
 
 
 def get_sentiment(symbol):
@@ -136,7 +168,6 @@ def result():
     company_name = dict(get_symbols()).get(symbol, symbol)
     df = fetch_data(symbol, start_date, end_date)
 
-    # Always fetch current price (even if data is missing)
     current_price, diff, pct = get_current_price(symbol)
 
     if df.empty or len(df) < 2:
@@ -151,20 +182,23 @@ def result():
     avg_return = df['Return'].mean()
     volatility = df['Return'].std()
     sharpe = avg_return / volatility if volatility != 0 else 0
-    prediction = predict_price(df)
     price_chart = plot_prices(df, symbol)
+
     sentiment = get_sentiment(symbol) if include_sentiment else None
+    risk_level, risk_label = assess_risk(avg_return, volatility, sentiment['score'] if sentiment else None)
 
     return render_template("result.html", symbol=symbol, name=company_name,
                            avg_return=avg_return,
                            volatility=volatility,
                            sharpe=sharpe,
-                           prediction=prediction,
+                           risk_level=risk_level,
+                           risk_label=risk_label,
                            chart=price_chart,
                            sentiment=sentiment,
                            current_price=current_price,
                            diff=diff,
                            pct=pct)
+
 
 
 if __name__ == "__main__":
