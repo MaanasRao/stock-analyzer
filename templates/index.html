@@ -13,6 +13,18 @@
         const today = new Date().toISOString().split("T")[0];
         document.getElementById("start_date").setAttribute("max", today);
         document.getElementById("end_date").setAttribute("max", today);
+
+        // Date validation on submit
+        $('form').on('submit', function(e) {
+            const start = new Date($('#start_date').val());
+            const end = new Date($('#end_date').val());
+            const diff = (end - start) / (1000 * 60 * 60 * 24);
+
+            if (diff < 7) {
+                alert("Please select a date range of at least 7 days.");
+                e.preventDefault();
+            }
+        });
       });
     </script>
 </head>
@@ -33,10 +45,13 @@
         <label>End Date:</label>
         <input type="date" id="end_date" name="end_date" required>
 
-<div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
-    <input type="checkbox" id="include_sentiment" name="include_sentiment">
-    <label for="include_sentiment" style="margin: 0;">Include News Sentiment</label>
-</div>
+        <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+            <input type="checkbox" id="include_sentiment" name="include_sentiment">
+            <label for="include_sentiment" style="margin: 0;">Include News Sentiment</label>
+        </div>
+        <p style="font-size: 0.9em; color: #555; margin-top: 8px;">
+            <em>News Sentiment uses recent financial news to estimate public mood (positive/neutral/negative).</em>
+        </p>
 
         <button type="submit">Submit</button>
     </form>
