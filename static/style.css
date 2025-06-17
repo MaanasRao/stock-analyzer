@@ -1,33 +1,29 @@
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to right, #eef2f3, #dfe9f3);
-    margin: 0;
-    padding: 40px;
-}
-
 .card {
     background: #ffffff;
     max-width: 650px;
-    margin: auto;
-    padding: 30px 40px;
+    margin: 50px auto;
+    padding: 30px 35px;
     border-radius: 15px;
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
-h2 {
-    color: #1a1a1a;
-    border-bottom: 3px solid #007bff;
+.card h2 {
+    color: #2c3e50;
+    border-bottom: 2px solid #2980b9;
     padding-bottom: 10px;
+    margin-top: 0;
+    font-size: 24px;
 }
 
-label {
+.card label {
     font-weight: 600;
     margin-top: 12px;
     display: block;
 }
 
-input[type="date"],
-select {
+.card select,
+.card input[type="date"] {
     width: 100%;
     padding: 10px 12px;
     margin: 8px 0 15px;
@@ -36,18 +32,19 @@ select {
     font-size: 14px;
 }
 
-.checkbox-container {
+.card .form-group {
     display: flex;
     align-items: center;
-    margin-top: 10px;
+    gap: 10px;
+    margin-top: 12px;
 }
 
-.checkbox-container input[type="checkbox"] {
-    margin-right: 10px;
-    transform: scale(1.2);
+.card .form-group label {
+    margin: 0;
+    font-weight: 500;
 }
 
-button {
+.card button {
     width: 100%;
     padding: 12px;
     background-color: #007bff;
@@ -61,22 +58,166 @@ button {
     transition: background-color 0.3s ease;
 }
 
-button:hover {
+.card button:hover {
     background-color: #0056b3;
 }
 
-.chart {
-    width: 100%;
-    max-width: 600px;
-    display: block;
-    margin: 20px auto;
+.card .sentiment-note {
+    font-size: 13px;
+    color: #555;
+    font-style: italic;
+    margin-top: -8px;
 }
 
-a {
-    color: #007bff;
+@media (max-width: 600px) {
+    .card {
+        padding: 25px 20px;
+        margin: 20px;
+    }
+
+    .card h2 {
+        font-size: 20px;
+    }
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+    margin: 0;
+    padding: 40px 20px;
+    color: #222;
+}
+
+.container {
+    background: #ffffff;
+    max-width: 850px;
+    margin: auto;
+    padding: 35px 45px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+}
+
+h2, h3 {
+    color: #2c3e50;
+    border-bottom: 2px solid #2980b9;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+h3.error {
+    color: #e74c3c;
+    border-bottom: none;
+}
+
+.price-box {
+    font-size: 17px;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.price-label {
+    font-weight: 600;
+}
+
+.price-value {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.price-change.green {
+    color: #27ae60;
+    font-weight: 600;
+}
+
+.price-change.red {
+    color: #c0392b;
+    font-weight: 600;
+}
+
+ul.metrics {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 20px;
+    font-size: 15.5px;
+}
+
+ul.metrics li {
+    margin: 8px 0;
+}
+
+.risk-box {
+    margin-top: 25px;
+    padding: 18px;
+    background: #fdfdfd;
+    border-left: 6px solid #bbb;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.chart-wrapper {
+    margin-top: 35px;
+    background: #f7fafd;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #d0dbe5;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.chart-wrapper iframe {
+    width: 100% !important;
+    height: auto !important;
+    border: none;
+}
+
+.sentiment {
+    margin-top: 30px;
+}
+
+.sentiment-note {
+    font-size: 13px;
+    color: #666;
+    margin-top: 6px;
+}
+
+.caution-box {
+    margin-top: 30px;
+    background: #fff8e1;
+    padding: 18px;
+    border-left: 6px solid #f0ad4e;
+    font-size: 14px;
+    border-radius: 8px;
+    color: #8a6d3b;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 30px;
+    color: #3498db;
+    font-weight: 600;
     text-decoration: none;
 }
 
-a:hover {
+.back-btn:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 25px 20px;
+    }
+
+    h2, h3 {
+        font-size: 20px;
+    }
+
+    .price-box, ul.metrics li {
+        font-size: 14px;
+    }
+
+    .caution-box {
+        font-size: 13px;
+    }
 }
